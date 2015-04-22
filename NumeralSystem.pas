@@ -19,13 +19,13 @@ begin
   toDigit:=cod-48;
 end;  
 
-function toNumber(s:string):integer;
+function toNumber(s:string; base:byte):integer;
 var weight,res,i:integer;
 begin
   weight:=1;
   for i:=0 to length(s)-1 do begin
     res:=res+weight*toDigit(s[length(s)-i]);
-    weight:=weight*10;
+    weight:=weight*base;
   end;  
   toNumber:=res;
 end;  
@@ -34,7 +34,9 @@ var i:integer;
     s:string;
     c:char;
     cod:word;
+    base:byte;
 begin
   readln(s);
-  writeln(toNumber(s));
+  readln(base);
+  writeln(toNumber(s,base));
 end.    
