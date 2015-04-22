@@ -20,14 +20,28 @@ begin
 end;  
 
 function toNumber(s:string; base:byte):integer;
-var weight,res,i:integer;
+var 
+  weight:integer;
+  res:integer;
+  numGrade:integer; //номер разряда
+  mult:integer;
+  numGreatGrade:integer; //номер старшего разряда
+  currentChar:char;
 begin
+  if (s[1] = '-') then begin
+    mult:=-1;
+    numGreatGrade:=length(s)-2;
+  end else begin
+    mult:=1;
+    numGreatGrade:=length(s)-1;
+  end;
   weight:=1;
-  for i:=0 to length(s)-1 do begin
-    res:=res+weight*toDigit(s[length(s)-i]);
+  for numGrade:=0 to numGreatGrade do begin
+    currentChar:=s[length(s)-numGrade];
+    res:=res+weight*toDigit(currentChar);
     weight:=weight*base;
   end;  
-  toNumber:=res;
+  toNumber:=res*mult;
 end;  
 
 var i:integer;
