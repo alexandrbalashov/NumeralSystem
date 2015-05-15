@@ -17,8 +17,11 @@ begin
   end;
   cod:=OrdUnicode(c);
   toDigit:=cod-48;
-end;  
+end; 
 
+
+{Функция переводит целое число со знаком, полученное как строка s,
+ с основанием base, в десятичную систему исчисления}
 function toNumber(s:string; base:byte):integer;
 var 
   weight:integer;
@@ -44,6 +47,39 @@ begin
   toNumber:=res*mult;
 end;  
 
+{Анализирует беззнаковое число, имеет ли оно дробную часть}
+function isFraction(s:string):boolean;
+var i,n:integer;
+    pointFound:boolean;
+begin
+  pointFound:=false;
+  n:=length(s);
+  if (not isDigit(s[1])) then begin
+    writeln('error. The first char is not digit');
+    exit;
+  end;
+  if (not isDigit(s[n])) then begin
+    writeln('error. The last char is not digit');
+    exit;
+  end;
+  
+  i:=2;
+  while (not pointFound)and(i<=n-1) do begin
+    if (not isDigit(s[i])) then begin
+      if (s[i] = '.') or (s[i] = ',') 
+        then pointFound:=true
+        else begin
+          writeln('error');
+          exit;
+        end;  
+    end;
+    i:=i+1;
+  end;
+  
+  isFraction:=pointFound;
+ 
+end;    
+
 var i:integer;
     s:string;
     c:char;
@@ -51,6 +87,6 @@ var i:integer;
     base:byte;
 begin
   readln(s);
-  readln(base);
-  writeln(toNumber(s,base));
-end.    
+  writeln(isFraction(s));
+end.   
+ 
